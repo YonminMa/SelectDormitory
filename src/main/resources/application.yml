@@ -1,0 +1,18 @@
+server:
+  port: 8088
+
+spring:
+  # 热部署
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.80.128:3306/test?serverTimezone=CST
+    username: root
+    password: root
