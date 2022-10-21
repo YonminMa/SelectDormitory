@@ -4,10 +4,7 @@ import com.pku.dormitory.domain.Student;
 import com.pku.dormitory.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 @RestController
 public class LoginController {
