@@ -42,7 +42,6 @@ public class LoginController {
         return "用户名或密码错误";
     }
 
-
     @GetMapping("/logout")
     public String logout(HttpSession session){
         session.removeAttribute("user");
