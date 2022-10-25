@@ -17,6 +17,11 @@ public class RoomServiceImpl implements RoomService {
     BuildingService buildingService;
 
     @Override
+    public Room findRoomById(int id) {
+        return roomRepository.findRoomById(id);
+    }
+
+    @Override
     public void saveRoom(Room room) {
         roomRepository.save(room);
         // 保存完房间后要更新building的剩余床位数量
@@ -25,8 +30,21 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void updateRoom(int id, int decline) {
-        roomRepository.updateRoom(id, decline);
+    public boolean updateRoom(int id, int decline) {
+        Room room = findRoomById(id);
+        if (room == null) {
+            System.out.println("无此房间，提交失败");
+            return false;
+        } else if (room.getRest() < decline) {
+            System.out.println("房间床位不足，提交失败");
+            return false;
+        } else {
+            int building_id = roomRepository.findRoomById(id).getBuilding_id();
+            roomRepository.updateRoom(id, decline);
+            int building_rest = buildingService.checkRest(building_id) - decline;
+            buildingService.updateRest(building_id, building_rest);
+            System.out.println("房间"+id+"的床位减少了"+decline);
+            return true;
+        }
     }
-
 }

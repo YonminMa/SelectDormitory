@@ -4,8 +4,10 @@ import com.pku.dormitory.domain.Room;
 
 public interface RoomService {
 
+    Room findRoomById(int id);
+
     void saveRoom(Room room);
 
-    void updateRoom(int id, int decline);
+    boolean updateRoom(int id, int decline);
 
 }

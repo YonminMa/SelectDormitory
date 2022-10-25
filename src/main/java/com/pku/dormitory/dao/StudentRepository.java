@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface StudentRepository extends JpaRepository<Student, Integer> {
 
+    // 表名必须是domain类的名字
     @Query("select u from Student u where u.uid = ?1")
     Student findByUid(String uid);
 

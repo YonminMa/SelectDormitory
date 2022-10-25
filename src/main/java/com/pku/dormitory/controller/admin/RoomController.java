@@ -21,7 +21,11 @@ public class RoomController {
 
     @PutMapping("/update")
     public String updateRoom(int id, int decline) {
-        roomService.updateRoom(id, decline);
-        return "房间"+id+"的床位减少了"+decline;
+        boolean flag = roomService.updateRoom(id, decline);
+        if (flag) {
+            return "更新成功";
+        } else {
+            return "更新失败";
+        }
     }
 }

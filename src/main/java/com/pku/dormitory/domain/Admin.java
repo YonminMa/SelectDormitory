@@ -1,6 +1,15 @@
 package com.pku.dormitory.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tb_admin")
 public class Admin {
+
+    @Id
+    private int id;
 
     private String username;
 

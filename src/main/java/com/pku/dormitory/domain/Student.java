@@ -1,27 +1,33 @@
 package com.pku.dormitory.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "student")
+@Entity // 添加Entity可以根据@Table(name = "tb_student")中的name字段自动创建表
+@Table(name = "tb_student")
+@TableName("tb_student") // MyBatisPlus注解，参数为表名，用于设置实体类所对应的表名自动装箱
 public class Student {
     @Id
+    @TableId(type = IdType.AUTO) // MyBatisPlus设置自增主键的注解
     private String uid;
     private String name;
     private int gender;
     private String password;
     private int gid;
-    private int room_id;
+    private int room;
 
-    public Student(String uid, String name, int gender, String password, int gid, int room_id) {
+    public Student(String uid, String name, int gender, String password, int gid, int room) {
         this.uid = uid;
         this.name = name;
         this.gender = gender;
         this.password = password;
         this.gid = gid;
-        this.room_id = room_id;
+        this.room = room;
     }
 
     public Student() {
@@ -67,12 +73,12 @@ public class Student {
         this.gid = gid;
     }
 
-    public int getRoom_id() {
-        return room_id;
+    public int getRoom() {
+        return room;
     }
 
-    public void setRoom_id(int room_id) {
-        this.room_id = room_id;
+    public void setRoom(int room) {
+        this.room = room;
     }
 
     @Override
@@ -83,7 +89,7 @@ public class Student {
                 ", gender=" + gender +
                 ", password='" + password + '\'' +
                 ", gid=" + gid +
-                ", room_id=" + room_id +
+                ", room=" + room +
                 '}';
     }
 }
