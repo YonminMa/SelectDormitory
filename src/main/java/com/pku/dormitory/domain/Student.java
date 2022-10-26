@@ -14,14 +14,16 @@ import javax.persistence.Table;
 public class Student {
     @Id
     @TableId(type = IdType.AUTO) // MyBatisPlus设置自增主键的注解
+    private int id;
+
     private String uid;
     private String name;
     private int gender;
     private String password;
     private int gid;
-    private int room;
+    private String room;
 
-    public Student(String uid, String name, int gender, String password, int gid, int room) {
+    public Student(String uid, String name, int gender, String password, int gid, String room) {
         this.uid = uid;
         this.name = name;
         this.gender = gender;
@@ -31,6 +33,14 @@ public class Student {
     }
 
     public Student() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUid() {
@@ -73,11 +83,11 @@ public class Student {
         this.gid = gid;
     }
 
-    public int getRoom() {
+    public String getRoom() {
         return room;
     }
 
-    public void setRoom(int room) {
+    public void setRoom(String room) {
         this.room = room;
     }
 

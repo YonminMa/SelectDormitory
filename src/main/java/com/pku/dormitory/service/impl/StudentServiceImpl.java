@@ -43,4 +43,16 @@ public class StudentServiceImpl implements StudentService {
     public void deleteStudent(String uid) {
         studentRepository.deleteStudentByUid(uid);
     }
+
+    @Override
+    public void updateRoomById(int id, String room) {
+        studentRepository.updateRoomById(id, room);
+    }
+
+    @Override
+    public void updateRoomByGid(int gid, String room) {
+        studentRepository.updateRoomByGid(gid, room);
+    }
+
+
 }

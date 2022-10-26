@@ -21,6 +21,11 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findRoomById(id);
     }
 
+    public Room findRoomByRestAndGender(int rest, int gender){
+        System.out.println(roomRepository.findRoomByRestAndGender(rest, gender));
+        return roomRepository.findRoomByRestAndGender(rest, gender);
+    }
+
     @Override
     public void saveRoom(Room room) {
         roomRepository.save(room);
@@ -46,5 +51,10 @@ public class RoomServiceImpl implements RoomService {
             System.out.println("房间"+id+"的床位减少了"+decline);
             return true;
         }
+    }
+
+    @Override
+    public int checkRestByIdAndGender(int bid, int gender) {
+        return roomRepository.checkRestByIdAndGender(bid, gender);
     }
 }

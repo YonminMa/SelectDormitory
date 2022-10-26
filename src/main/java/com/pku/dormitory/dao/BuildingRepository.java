@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface BuildingRepository extends JpaRepository<Building, Integer> {
 
+    @Query("select b.id from Building b where b.number = ?1")
+    int getIdByNumber(int number);
+
     void deleteBuildingByNumber(int number);
 
     @Transactional

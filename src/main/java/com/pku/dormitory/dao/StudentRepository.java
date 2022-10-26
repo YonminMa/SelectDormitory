@@ -22,4 +22,14 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     @Transactional
     @Modifying
     void deleteStudentByUid(String uid);
+
+    @Transactional
+    @Modifying
+    @Query("update Student s set s.room = ?2 where s.id = ?1")
+    void updateRoomById(int id, String room);
+
+    @Transactional
+    @Modifying
+    @Query("update Student s set s.room = ?2 where s.gid = ?1")
+    void updateRoomByGid(int gid, String room);
 }

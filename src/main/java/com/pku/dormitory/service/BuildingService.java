@@ -10,9 +10,13 @@ public interface BuildingService {
 
     void saveBuilding(Building building);
 
+    int getIdByNumber(int number);
+
     void deleteBuilding(int number);
 
     void updateRest(int number, int rest);
 
     int checkRest(int id);
+
+    int checkRestByIdAndGender(int id, int gender);
 }

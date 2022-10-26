@@ -18,4 +18,8 @@ public interface StudentService {
 
     // 删除学生
     void deleteStudent(String uid);
+
+    void updateRoomById(int id, String room);
+
+    void updateRoomByGid(int gid, String room);
 }
