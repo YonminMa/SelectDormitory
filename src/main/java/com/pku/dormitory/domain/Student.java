@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity // 添加Entity可以根据@Table(name = "tb_student")中的name字段自动创建表
 @Table(name = "tb_student")
-@TableName("tb_student") // MyBatisPlus注解，参数为表名，用于设置实体类所对应的表名自动装箱
+@TableName("tb_student") // MyBatisPlus注解，参数为表名，使用MyBatisPlus自带的方法时有用，自己写SQL语句时没用
 public class Student {
     @Id
     @TableId(type = IdType.AUTO) // MyBatisPlus设置自增主键的注解
