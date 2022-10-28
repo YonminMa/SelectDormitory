@@ -21,7 +21,7 @@ public class OrderController {
     BuildingService buildingService;
 
     @PostMapping("/order")
-    public String postOrder(String uid, int building) {
+    public String postOrder(String uid, Integer building) {
         // uid是学生的学号
         // building是宿舍楼号
         Student student = studentService.getStudent(uid);

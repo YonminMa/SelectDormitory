@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
         } else {
             Room room = roomService.findRoomByRestAndGender(need, gender);
             if (room == null) {
-                System.out.println("宿舍床位不足asd，分配失败");
+                System.out.println("宿舍床位不足，分配失败");
             } else {
                 int rid = room.getId();
                 Order order = new Order(oid, type, rid);
