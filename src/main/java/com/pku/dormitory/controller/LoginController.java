@@ -16,19 +16,11 @@ public class LoginController {
         return "/login";
     }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     @ResponseBody // 使得返回对象是json格式
     public Student login(@RequestParam String uid,
-                        @RequestParam String password,
-                        HttpSession session){
-        Student student = studentService.checkStudent(uid, password);
-        if (student != null) {
-            student.setPassword(null);
-            session.setAttribute("student", student);
-            return student;
-        } else {
-            return null;
-        }
+                        @RequestParam String password){
+        return studentService.checkStudent(uid, password);
     }
 
     @PostMapping("/check")

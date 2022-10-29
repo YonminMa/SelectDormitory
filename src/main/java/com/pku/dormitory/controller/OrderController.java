@@ -32,7 +32,7 @@ public class OrderController {
             } else if (student.getRoom() != null) {
                 return "该学生已经分配宿舍" + student.getRoom();
             } else {
-                if (student.getGid() == 0) {
+                if (student.getGid() == -1) {
                     orderService.postOrder(student.getId(), bid, 0, student.getGender());
                 } else {
                     orderService.postOrder(student.getGid(), bid, 1, student.getGender());
