@@ -1,40 +1,23 @@
 package com.pku.dormitory.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.sql.Timestamp;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "tb_order")
-public class Order {
+public class Order implements Serializable {
+    private int oid;
 
-    @Id
-    private int id;
+    private int bid;
 
-    private int oid; // 学生的id或组队的gid
+    private int type;
 
-    private int type; // type为0时代表为学生，type为1时代表组队
+    private int gender;
 
-    private int rid; // 房间的id
+    public Order() {}
 
-    private Timestamp timestamp; // 订单生成的时间
-
-    public Order() {
-    }
-
-    public Order(int oid, int type, int rid) {
+    public Order(int oid, int bid, int type, int gender) {
         this.oid = oid;
+        this.bid = bid;
         this.type = type;
-        this.rid = rid;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.gender = gender;
     }
 
     public int getOid() {
@@ -45,6 +28,14 @@ public class Order {
         this.oid = oid;
     }
 
+    public int getBid() {
+        return bid;
+    }
+
+    public void setBid(int bid) {
+        this.bid = bid;
+    }
+
     public int getType() {
         return type;
     }
@@ -53,30 +44,11 @@ public class Order {
         this.type = type;
     }
 
-    public int getRid() {
-        return rid;
+    public int getGender() {
+        return gender;
     }
 
-    public void setRid(int rid) {
-        this.rid = rid;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", oid=" + oid +
-                ", type=" + type +
-                ", rid=" + rid +
-                ", timestamp=" + timestamp +
-                '}';
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 }

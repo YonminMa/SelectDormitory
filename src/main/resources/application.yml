@@ -17,3 +17,9 @@ spring:
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
+  rabbitmq:
+    host: 192.168.80.128
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: /

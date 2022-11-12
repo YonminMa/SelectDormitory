@@ -23,6 +23,16 @@ public class Student {
     private int gid;
     private String room;
 
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public Student(String uid, String name, int gender, String password, int gid, String room) {
         this.uid = uid;
         this.name = name;
@@ -30,6 +40,11 @@ public class Student {
         this.password = password;
         this.gid = gid;
         this.room = room;
+    }
+
+    public Student(String uid, String password) {
+        this.uid = uid;
+        this.password = password;
     }
 
     public Student() {

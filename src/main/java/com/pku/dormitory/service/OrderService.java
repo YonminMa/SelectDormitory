@@ -1,6 +1,8 @@
 package com.pku.dormitory.service;
 
+import com.pku.dormitory.domain.Order;
+
 public interface OrderService {
 
-    boolean postOrder(int oid, int building, int type, int gender);
+    void postOrder(Order order);
 }

@@ -1,5 +1,6 @@
 package com.pku.dormitory.controller;
 
+import com.pku.dormitory.domain.Order;
 import com.pku.dormitory.domain.Student;
 import com.pku.dormitory.service.BuildingService;
 import com.pku.dormitory.service.OrderService;
@@ -33,11 +34,11 @@ public class OrderController {
                 return "该学生已经分配宿舍" + student.getRoom();
             } else {
                 if (student.getGid() == -1) {
-                    orderService.postOrder(student.getId(), bid, 0, student.getGender());
+                    orderService.postOrder(new Order(student.getId(), bid, 0, student.getGender()));
                 } else {
-                    orderService.postOrder(student.getGid(), bid, 1, student.getGender());
+                    orderService.postOrder(new Order(student.getGid(), bid, 1, student.getGender()));
                 }
-                return "提交订单";
+                return "提交宿舍申请成功";
             }
         } catch (Exception e) {
             return "没有查询到该宿舍楼";
