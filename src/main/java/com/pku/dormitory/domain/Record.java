@@ -6,8 +6,8 @@ import javax.persistence.Table;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "tb_result")
-public class Result {
+@Table(name = "tb_record")
+public class Record {
 
     @Id
     private int id;
@@ -20,10 +20,10 @@ public class Result {
 
     private Timestamp timestamp; // 订单生成的时间
 
-    public Result() {
+    public Record() {
     }
 
-    public Result(int oid, int type, int rid) {
+    public Record(int oid, int type, int rid) {
         this.oid = oid;
         this.type = type;
         this.rid = rid;

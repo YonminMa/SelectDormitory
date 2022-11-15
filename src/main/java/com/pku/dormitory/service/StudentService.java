@@ -11,7 +11,7 @@ public interface StudentService {
     Student getStudent(String uid);
 
     // 输入密码时查询student是否存在
-    Student checkStudent(String uid, String password);
+    boolean checkStudent(String uid, String password);
 
     // 改变student的password
     void changePassword(String uid, String password);

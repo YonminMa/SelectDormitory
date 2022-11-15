@@ -29,9 +29,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student checkStudent(String uid, String password) {
+    public boolean checkStudent(String uid, String password) {
         Student student = studentRepository.findByUidAndPassword(uid, password);
-        return student;
+        return student != null;
     }
 
     @Override

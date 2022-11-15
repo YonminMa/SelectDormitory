@@ -1,7 +1,7 @@
 package com.pku.dormitory.mq;
 
 import com.pku.dormitory.domain.Order;
-import com.pku.dormitory.domain.Result;
+import com.pku.dormitory.domain.Record;
 import com.pku.dormitory.domain.Room;
 import com.pku.dormitory.service.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -51,9 +51,9 @@ public class MQReceiver {
                 System.out.println("宿舍床位不足，分配失败");
             } else {
                 int rid = room.getId();
-                Result result = new Result(oid, type, rid);
+                Record record = new Record(oid, type, rid);
                 roomService.updateRoom(rid, need);
-                resultService.save(result);
+                resultService.save(record);
                 if (type == 0) {
                     // 单人抢宿舍
                     studentService.updateRoomById(oid, room.getName());

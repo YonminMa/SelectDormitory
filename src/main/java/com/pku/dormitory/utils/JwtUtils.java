@@ -10,7 +10,7 @@ public class JwtUtils {
     //7天过期
     private static final long expire = 604800; // 7*24*60*60
     //32位秘钥
-    private static final String secret = "yourOwnSecretKeyAndTheLengthIs32";
+    private static final String secret = "yourOwnSecretKey";
 
     //生成token
     public static String generateToken(String username){
@@ -19,9 +19,9 @@ public class JwtUtils {
         return Jwts.builder()
                 .setHeaderParam("type","JWT")
                 .setSubject(username)
-                .setIssuedAt(now)
-                .setExpiration(expiration)
-                .signWith(SignatureAlgorithm.HS512,secret)
+                .setIssuedAt(now) // 签发时间
+                .setExpiration(expiration) // 过期时间
+                .signWith(SignatureAlgorithm.HS512, secret) // 签发算法
                 .compact();
     }
 
@@ -33,7 +33,8 @@ public class JwtUtils {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
-            return null;
+            e.printStackTrace();
         }
+        return null;
     }
 }

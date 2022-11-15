@@ -1,8 +1,8 @@
 package com.pku.dormitory.service;
 
-import com.pku.dormitory.domain.Result;
+import com.pku.dormitory.domain.Record;
 
 public interface ResultService {
 
-    void save(Result result);
+    void save(Record record);
 }
