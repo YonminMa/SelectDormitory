@@ -1,0 +1,25 @@
+server:
+  port: 8088
+
+spring:
+  # 热部署
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dormitory?serverTimezone=UTC&useSSL=false&characterEncoding=utf8
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: yonmin
+    password: 123456
+    virtual-host: /
