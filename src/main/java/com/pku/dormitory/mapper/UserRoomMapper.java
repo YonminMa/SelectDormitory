@@ -5,6 +5,8 @@ import com.pku.dormitory.domain.UserRoom;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * @author Yonmin
  * @date 2022/12/4 16:52
@@ -14,4 +16,6 @@ public interface UserRoomMapper extends BaseMapper<UserRoom> {
 
     @Select("select exists(select 1 from user_room where user_id = #{userId})")
     Boolean existsUserId(Integer userId);
+
+    void insertBatch(List<UserRoom> userRoomList);
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -64,9 +65,12 @@ public class MQReceiver {
               每个人都要提交到消息队列队列
              */
             List<Integer> userIds = userTeamMapper.getUserIdsByTeamId(order.getGroupId());
-            for (Integer id : userIds) {
-                userRoomMapper.insert(new UserRoom(id, roomId));
-            }
+            List<UserRoom> userRoomList = new ArrayList<>();
+            userRoomMapper.insertBatch(userRoomList);
+
+//            for (Integer id : userIds) {
+//                userRoomMapper.insert(new UserRoom(id, roomId));
+//            }
         }
         order.setFinishTime(new Timestamp(System.currentTimeMillis()));
         order.setStatus(1);
