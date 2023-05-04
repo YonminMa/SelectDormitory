@@ -8,6 +8,8 @@ import com.pku.dormitory.service.OrderService;
 import com.pku.dormitory.utils.JwtUtils;
 import com.pku.dormitory.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -45,6 +47,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     UserTeamMapper userTeamMapper;
+
+    @Autowired
+    StringRedisTemplate redisTemplate;
 
     /**
      * 创建订单
@@ -88,11 +93,12 @@ public class OrderServiceImpl implements OrderService {
         }
 
         Integer gender = infoMapper.getGenderById(userId);
-        if (roomMapper.getRestByBuildingAndGender(buildingId, gender) == 0) {
+        int need = order.getGroupId() == 0 ? 1 : userTeamMapper.getUserIdsByTeamId(order.getGroupId()).size();
+        if (roomMapper.getRestByBuildingAndGender(buildingId, gender) < need) {
             order.setStatus(2);
             order.setFinishTime(new Timestamp(System.currentTimeMillis()));
             orderMapper.insert(order);
-            return Result.error("没有空余床位").data("order_id", order.getId());
+            return Result.error("空余床位不足").data("order_id", order.getId());
         }
 
         if (userRoomMapper.existsUserId(userId)) {
@@ -103,9 +109,12 @@ public class OrderServiceImpl implements OrderService {
         }
 
 
-        orderMapper.insert(order);
-        mqSender.sendOrder(order);
-
+        if (seckillWithLua(buildingId, need + "")) {
+            // 生成订单
+            orderMapper.insert(order);
+            // 发送订单消息
+            mqSender.sendOrder(order);
+        }
         return Result.ok().data("order_id", order.getId());
     }
 
@@ -126,5 +135,30 @@ public class OrderServiceImpl implements OrderService {
                     .data("status", order.getStatus())
                     .data("room_id", order.getRoomId());
         }
+    }
+
+    // 使用lua脚本实现秒杀
+    private boolean seckillWithLua(int buildingId, String need) {
+        boolean result = false;
+        try {
+            String luaScript = "if tonumber(redis.call('get', KEYS[1])) >= tonumber(ARGV[1]) then " +
+                    "redis.call('decrby', KEYS[1], ARGV[1]) " +
+                    "return 1 " +
+                    "else " +
+                    "return 0 " +
+                    "end";
+
+            DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
+            redisScript.setScriptText(luaScript);
+            redisScript.setResultType(Long.class);
+
+            List<String> keyList = new ArrayList<>();
+            // KEY[1]
+            keyList.add("building:" + buildingId);
+            result = (redisTemplate.execute(redisScript, keyList, need) == 1L);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
