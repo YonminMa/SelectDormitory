@@ -36,11 +36,6 @@ public class TeamInterceptor implements HandlerInterceptor {
 
         if ("1".equals(sysMapper.getTeamLimit())) return generateErrorResponse(response, "不允许组队");
 
-        String header = request.getHeader("Authorization");
-        System.out.println(header);
-
-        System.out.println((String) request.getAttribute("access_token"));
-
         String username = JwtUtils.getClaimsByToken((String) request.getAttribute("access_token")).getSubject();
         Integer userId = userMapper.getIdByUsername(username);
         if (userRoomMapper.existsUserId(userId)) return generateErrorResponse(response, "已分配宿舍，禁止使用队伍功能");
