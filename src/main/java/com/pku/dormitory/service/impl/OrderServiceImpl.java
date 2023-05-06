@@ -154,7 +154,7 @@ public class OrderServiceImpl implements OrderService {
 
             List<String> keyList = new ArrayList<>();
             // KEY[1]
-            keyList.add("building:" + gender + ":rest" + buildingId);
+            keyList.add("building:" + gender + ":rest:" + buildingId);
             result = (redisTemplate.execute(redisScript, keyList, need) == 1L);
         } catch (Exception e) {
             e.printStackTrace();

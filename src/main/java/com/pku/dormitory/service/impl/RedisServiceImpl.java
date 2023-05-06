@@ -62,10 +62,10 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public int getBuildingRestByGender(int buildingId, int gender) {
-        String rest = this.get("building:" + gender + ":rest" + buildingId);
+        String rest = this.get("building:" + gender + ":rest:" + buildingId);
         if (rest == null) {
             int res = roomMapper.getRestByBuildingAndGender(buildingId, gender);
-            this.set("building:" + gender + ":rest" + buildingId, res + "");
+            this.set("building:" + gender + ":rest:" + buildingId, res + "");
             return res;
         }
         return Integer.parseInt(rest);
@@ -75,7 +75,7 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public void updateRestByIdAndNeed(Integer roomId, Integer buildingId, Integer need, Integer gender) {
         // 删除缓存
-        this.delete("building:" + gender + ":rest" + buildingId);
+        this.delete("building:" + gender + ":rest:" + buildingId);
         // 更改数据库
         roomMapper.updateRestByIdAndNeed(roomId, need);
         // sleep 1s
@@ -85,6 +85,6 @@ public class RedisServiceImpl implements RedisService {
             e.printStackTrace();
         }
         // 删除缓存
-        this.delete("building:" + gender + ":rest" + buildingId);
+        this.delete("building:" + gender + ":rest:" + buildingId);
     }
 }
