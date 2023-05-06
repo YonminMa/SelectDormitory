@@ -109,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
 
-        if (seckillWithLua(buildingId, need + "")) {
+        if (seckillWithLua(buildingId, gender, need + "")) {
             // 生成订单
             orderMapper.insert(order);
             // 发送订单消息
@@ -138,7 +138,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     // 使用lua脚本实现秒杀
-    private boolean seckillWithLua(int buildingId, String need) {
+    private boolean seckillWithLua(int buildingId, int gender, String need) {
         boolean result = false;
         try {
             String luaScript = "if tonumber(redis.call('get', KEYS[1])) >= tonumber(ARGV[1]) then " +
@@ -154,7 +154,7 @@ public class OrderServiceImpl implements OrderService {
 
             List<String> keyList = new ArrayList<>();
             // KEY[1]
-            keyList.add("building:" + buildingId);
+            keyList.add("building:" + gender + ":rest" + buildingId);
             result = (redisTemplate.execute(redisScript, keyList, need) == 1L);
         } catch (Exception e) {
             e.printStackTrace();

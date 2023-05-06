@@ -3,6 +3,7 @@ package com.pku.dormitory.mq;
 import com.pku.dormitory.domain.Order;
 import com.pku.dormitory.domain.UserRoom;
 import com.pku.dormitory.mapper.*;
+import com.pku.dormitory.service.RedisService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,9 @@ public class MQReceiver {
     @Autowired
     InfoMapper infoMapper;
 
+    @Autowired
+    RedisService redisService;
+
     @RabbitListener(queues = MQConfig.ORDER_QUEUE)
     public void receive(Order order) {
 
@@ -53,24 +57,16 @@ public class MQReceiver {
         order.setRoomId(roomId);
 
         // 更新room表的剩余人数
-        roomMapper.updateRestByIdAndNeed(roomId, need);
+        redisService.updateRestByIdAndNeed(roomId, buildingId, need, gender);
 
         // 添加user_room新记录
         if (order.getGroupId() == 0) {
             // 一个人选宿舍
             userRoomMapper.insert(new UserRoom(userId, roomId));
         } else {
-            /*
-              组队抢宿舍
-              每个人都要提交到消息队列队列
-             */
-            List<Integer> userIds = userTeamMapper.getUserIdsByTeamId(order.getGroupId());
+            // 组队抢宿舍，每个人都要提交到消息队列队列
             List<UserRoom> userRoomList = new ArrayList<>();
             userRoomMapper.insertBatch(userRoomList);
-
-//            for (Integer id : userIds) {
-//                userRoomMapper.insert(new UserRoom(id, roomId));
-//            }
         }
         order.setFinishTime(new Timestamp(System.currentTimeMillis()));
         order.setStatus(1);

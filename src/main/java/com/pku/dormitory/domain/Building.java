@@ -3,12 +3,14 @@ package com.pku.dormitory.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 /**
  * @author Yonmin
  * @date 2022/12/4 13:23
  */
 @TableName("building")
+@Data
 public class Building {
     /**
      * 主键，自增
