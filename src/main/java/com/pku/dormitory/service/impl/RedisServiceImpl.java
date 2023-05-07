@@ -55,7 +55,8 @@ public class RedisServiceImpl implements RedisService {
                 return null;
             }
             buildingName = building.getName();
-            this.set("building:name" + buildingId, buildingName);
+            // 设置随机过期时间，防止缓存雪崩
+            this.setWithExpire("building:name:" + buildingId, buildingName, (long) (Math.random() * 10 + 10), TimeUnit.HOURS);
         }
         return buildingName;
     }
@@ -65,7 +66,8 @@ public class RedisServiceImpl implements RedisService {
         String rest = this.get("building:" + gender + ":rest:" + buildingId);
         if (rest == null) {
             int res = roomMapper.getRestByBuildingAndGender(buildingId, gender);
-            this.set("building:" + gender + ":rest:" + buildingId, res + "");
+            // 设置随机过期时间，防止缓存雪崩
+            this.setWithExpire("building:" + gender + ":rest:" + buildingId, res + "", (long) (Math.random() * 10 + 10), TimeUnit.HOURS);
             return res;
         }
         return Integer.parseInt(rest);
