@@ -80,13 +80,15 @@ public class RedisServiceImpl implements RedisService {
         this.delete("building:" + gender + ":rest:" + buildingId);
         // 更改数据库
         roomMapper.updateRestByIdAndNeed(roomId, need);
-        // sleep 1s
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        // 删除缓存
-        this.delete("building:" + gender + ":rest:" + buildingId);
+        // 新建一个线程，异步等待1s后再次删除缓存
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // 删除缓存
+            this.delete("building:" + gender + ":rest:" + buildingId);
+        }).start();
     }
 }
