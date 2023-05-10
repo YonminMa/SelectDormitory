@@ -66,6 +66,10 @@ public class MQReceiver {
         } else {
             // 组队抢宿舍，每个人都要提交到消息队列队列
             List<UserRoom> userRoomList = new ArrayList<>();
+            List<Integer> userIds = userTeamMapper.getUserIdsByTeamId(order.getGroupId());
+            for (Integer id : userIds) {
+                userRoomList.add(new UserRoom(id, roomId));
+            }
             userRoomMapper.insertBatch(userRoomList);
         }
         order.setFinishTime(new Timestamp(System.currentTimeMillis()));
